@@ -1,0 +1,25 @@
+name: Build DotNet project
+
+on:
+  push:
+    branches: ["main"]
+
+env:
+  DOTNET_VERSION: '7.0.x'                   
+
+jobs:
+  build:
+    runs-on: windows-latest 
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
+
+    - name: Setup DotNet ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: 'Resolve Project Dependencies Using Dotnet'
+      shell: pwsh # For Linux, use bash
+      run: |
+        dotnet build --configuration Release
